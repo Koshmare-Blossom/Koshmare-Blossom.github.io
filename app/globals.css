@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #07070f;
+  --color-surface: #0f0f1a;
+  --color-border: #1e1e30;
+  --color-pink: #e879f9;
+  --color-pink-soft: #f0abfc;
+  --color-violet: #a78bfa;
+  --color-violet-soft: #c4b5fd;
+  --color-text: #e2e8f0;
+  --color-muted: #64748b;
+  --color-soft: #94a3b8;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #07070f;
+  color: #e2e8f0;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #e879f922;
+  color: #f0abfc;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #07070f; }
+::-webkit-scrollbar-thumb { background: #1e1e30; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #a78bfa44; }
+
+a { color: inherit; text-decoration: none; }
+
+.glow-pink { text-shadow: 0 0 30px #e879f955; }
+.glow-violet { text-shadow: 0 0 30px #a78bfa55; }
+
+.prose-dark {
+  color: #94a3b8;
+  line-height: 1.8;
+}
+.prose-dark h1, .prose-dark h2, .prose-dark h3 {
+  color: #e2e8f0;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+.prose-dark p { margin-bottom: 1.25rem; }
+.prose-dark code {
+  background: #0f0f1a;
+  border: 1px solid #1e1e30;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.875em;
+  color: #f0abfc;
+}
+.prose-dark pre {
+  background: #0f0f1a;
+  border: 1px solid #1e1e30;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 1.25rem;
+}
+.prose-dark pre code { background: none; border: none; padding: 0; color: #e2e8f0; }
+.prose-dark a { color: #e879f9; text-decoration: underline; text-decoration-color: #e879f944; }
+.prose-dark a:hover { text-decoration-color: #e879f9; }
+.prose-dark ul, .prose-dark ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+.prose-dark li { margin-bottom: 0.4rem; }
+.prose-dark blockquote {
+  border-left: 2px solid #e879f9;
+  padding-left: 1rem;
+  color: #64748b;
+  margin-bottom: 1.25rem;
+}
