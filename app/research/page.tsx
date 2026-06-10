@@ -1,4 +1,24 @@
-const repos = [
+"use client";
+
+import { useEffect, useState } from "react";
+
+const initialRepos = [ 
+  {
+    name: "whisper",
+    desc: "Hell's Gate / Halo's Gate for Linux. Indirect syscalls via runtime libc ELF parsing.",
+    cve: null,
+    lang: "Go",
+    url: "https://github.com/Koshmare-Blossom/whisper",
+    stars: 0,
+  },
+  {
+    name: "eclipse",
+    desc: "Linux Sleep Obfuscation.",
+    cve: null,
+    lang: "Go",
+    url: "https://github.com/Koshmare-Blossom/eclipse",
+    stars: 0,
+  },
   {
     name: "Dear-Linux-With-Love",
     desc: "Linux kernel exploits, rewritten with love.",
@@ -72,6 +92,29 @@ const langColor: Record<string, string> = {
 };
 
 export default function Research() {
+  const [repos, setRepos] = useState(initialRepos);
+
+  useEffect(() => {
+    const fetchStars = async () => {
+      try {
+        const updatedRepos = await Promise.all(
+          initialRepos.map(async (repo) => {
+            const res = await fetch("https://api.github.com/repos/Koshmare-Blossom/" + repo.name);
+            if (res.ok) {
+              const data = await res.json();
+              return { ...repo, stars: data.stargazers_count };
+            }
+            return repo;
+          })
+        );
+        setRepos(updatedRepos);
+      } catch (err) {
+        console.error("failed to fetch stars", err);
+      }
+    };
+    fetchStars();
+  }, []);
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-20">
       <div className="mb-16">

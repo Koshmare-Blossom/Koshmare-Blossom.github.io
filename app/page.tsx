@@ -2,15 +2,24 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const featured = [
+const initialFeatured = [
+  {
+    name: "whisper",
+    desc: "Hell's Gate / Halo's Gate for Linux. Indirect syscalls via runtime libc ELF parsing.",
+    cve: null,
+    lang: "Go",
+    url: "https://github.com/Koshmare-Blossom/whisper",
+    stars: 0,
+  },
   {
     name: "Dear-Linux-With-Love",
     desc: "Linux kernel exploits, rewritten with love.",
     cve: null,
     lang: "Go",
     url: "https://github.com/Koshmare-Blossom/Dear-Linux-With-Love",
+    stars: 0,
   },
   {
     name: "PinTheft-asm",
@@ -18,6 +27,7 @@ const featured = [
     cve: "CVE-2026-43494",
     lang: "ASM",
     url: "https://github.com/Koshmare-Blossom/PinTheft-asm",
+    stars: 0,
   },
   {
     name: "Fragnesia-go",
@@ -25,13 +35,7 @@ const featured = [
     cve: "CVE-2026-46300",
     lang: "Go",
     url: "https://github.com/Koshmare-Blossom/Fragnesia-go",
-  },
-  {
-    name: "Copyfail-sh",
-    desc: "A Bash implementation of copyfail (CVE-2026-31431)",
-    cve: "CVE-2026-31431",
-    lang: "Shell",
-    url: "https://github.com/Koshmare-Blossom/Copyfail-sh",
+    stars: 0,
   },
 ];
 
@@ -43,6 +47,7 @@ const langColor: Record<string, string> = {
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [featured, setFeatured] = useState(initialFeatured);
 
   useEffect(() => {
     const el = heroRef.current;
@@ -54,6 +59,25 @@ export default function Home() {
       el.style.opacity = "1";
       el.style.transform = "translateY(0)";
     });
+
+    const fetchStars = async () => {
+      try {
+        const updated = await Promise.all(
+          initialFeatured.map(async (repo) => {
+            const res = await fetch("https://api.github.com/repos/Koshmare-Blossom/" + repo.name);
+            if (res.ok) {
+              const data = await res.json();
+              return { ...repo, stars: data.stargazers_count };
+            }
+            return repo;
+          })
+        );
+        setFeatured(updated);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchStars();
   }, []);
 
   return (
@@ -123,9 +147,16 @@ export default function Home() {
               className="group block p-4 border border-[#1e1e30] rounded-lg bg-[#0f0f1a] hover:border-[#e879f933] transition-all"
             >
               <div className="flex items-start justify-between mb-2">
-                <span className="font-mono text-sm text-[#e2e8f0] group-hover:text-[#f0abfc] transition-colors">
-                  {repo.name}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-sm text-[#e2e8f0] group-hover:text-[#f0abfc] transition-colors">
+                    {repo.name}
+                  </span>
+                  {repo.stars > 0 && (
+                    <span className="font-mono text-[10px] text-[#64748b]">
+                       ★ {repo.stars}
+                    </span>
+                  )}
+                </div>
                 <span
                   className="font-mono text-xs px-1.5 py-0.5 rounded"
                   style={{
