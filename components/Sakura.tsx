@@ -16,8 +16,10 @@ const Sakura: React.FC = () => {
     let petals: any[] = [];
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
     };
 
     window.addEventListener('resize', resize);
@@ -32,9 +34,13 @@ const Sakura: React.FC = () => {
       rotation: number;
       rotationSpeed: number;
       opacity: number;
+
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * (canvas.height + 100) - 100;
+        const width = canvas ? canvas.width : window.innerWidth;
+        const height = canvas ? canvas.height : window.innerHeight;
+
+        this.x = Math.random() * width;
+        this.y = Math.random() * (height + 100) - 100;
         this.size = Math.random() * 5 + 2;
         this.horizontalSpeed = Math.random() * 1 - 0.5;
         this.verticalSpeed = Math.random() * 1 + 0.5;
@@ -42,15 +48,21 @@ const Sakura: React.FC = () => {
         this.rotationSpeed = Math.random() * 0.02 - 0.01;
         this.opacity = Math.random() * 0.4 + 0.1;
       }
+
       update() {
+        const height = canvas ? canvas.height : window.innerHeight;
+        const width = canvas ? canvas.width : window.innerWidth;
+
         this.y += this.verticalSpeed;
         this.x += this.horizontalSpeed + Math.sin(this.y / 50) * 0.5;
         this.rotation += this.rotationSpeed;
-        if (this.y > canvas.height) {
+
+        if (this.y > height) {
           this.y = -20;
-          this.x = Math.random() * canvas.width;
+          this.x = Math.random() * width;
         }
       }
+
       draw() {
         if (!ctx) return;
         ctx.save();
@@ -65,13 +77,16 @@ const Sakura: React.FC = () => {
         ctx.restore();
       }
     }
+
     const init = () => {
       petals = [];
       for (let i = 0; i < 30; i++) {
         petals.push(new Petal());
       }
     };
+
     const animate = () => {
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       petals.forEach((petal) => {
         petal.update();
@@ -79,13 +94,16 @@ const Sakura: React.FC = () => {
       });
       animationFrameId = requestAnimationFrame(animate);
     };
+
     init();
     animate();
+
     return () => {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
+
   return (
     <canvas
       ref={canvasRef}
@@ -102,4 +120,5 @@ const Sakura: React.FC = () => {
     />
   );
 };
+
 export default Sakura;
