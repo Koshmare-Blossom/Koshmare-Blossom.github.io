@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const tools = ["Go", "x86_64 ASM", "Bash / Shell", "Linux kernel", "GDB", "IDA"];
+const tools = ["Go", "x86_64 ASM", "Bash / Shell", "Linux kernel", "Malware Research"];
 
 const links = [
   { label: "GitHub", url: "https://github.com/Koshmare-Blossom" },
