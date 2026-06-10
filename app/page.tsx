@@ -4,13 +4,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const initialFeatured = [
+const allRepos = [
   {
     name: "whisper",
     desc: "Hell's Gate / Halo's Gate for Linux. Indirect syscalls via runtime libc ELF parsing.",
     cve: null,
     lang: "Go",
     url: "https://github.com/Koshmare-Blossom/whisper",
+    stars: 0,
+  },
+  {
+    name: "eclipse",
+    desc: "Linux Sleep Obfuscation.",
+    cve: null,
+    lang: "Go",
+    url: "https://github.com/Koshmare-Blossom/eclipse",
     stars: 0,
   },
   {
@@ -22,6 +30,14 @@ const initialFeatured = [
     stars: 0,
   },
   {
+    name: "PinTheft-go",
+    desc: "A Go implementation of PinTheft (CVE-2026-43494)",
+    cve: "CVE-2026-43494",
+    lang: "Go",
+    url: "https://github.com/Koshmare-Blossom/PinTheft-go",
+    stars: 0,
+  },
+  {
     name: "PinTheft-asm",
     desc: "A x86_64 ASM implementation of PinTheft (CVE-2026-43494)",
     cve: "CVE-2026-43494",
@@ -30,11 +46,43 @@ const initialFeatured = [
     stars: 0,
   },
   {
+    name: "DirtyFrag-go",
+    desc: "A Go implementation of dirtyfrag (CVE-2026-43284 / CVE-2026-43500)",
+    cve: "CVE-2026-43284 / CVE-2026-43500",
+    lang: "Go",
+    url: "https://github.com/Koshmare-Blossom/DirtyFrag-go",
+    stars: 0,
+  },
+  {
+    name: "DirtyDecrypt-go",
+    desc: "A Go implementation of dirtydecrypt (CVE-2026-31635)",
+    cve: "CVE-2026-31635",
+    lang: "Go",
+    url: "https://github.com/Koshmare-Blossom/DirtyDecrypt-go",
+    stars: 0,
+  },
+  {
     name: "Fragnesia-go",
     desc: "A Go implementation of fragnesia (CVE-2026-46300)",
     cve: "CVE-2026-46300",
     lang: "Go",
     url: "https://github.com/Koshmare-Blossom/Fragnesia-go",
+    stars: 0,
+  },
+  {
+    name: "CIFSwitch-go",
+    desc: "A Go implementation of CIFSwitch (CVE-2026-46243)",
+    cve: "CVE-2026-46243",
+    lang: "Go",
+    url: "https://github.com/Koshmare-Blossom/CIFSwitch-go",
+    stars: 0,
+  },
+  {
+    name: "Copyfail-sh",
+    desc: "A Bash implementation of copyfail (CVE-2026-31431)",
+    cve: "CVE-2026-31431",
+    lang: "Shell",
+    url: "https://github.com/Koshmare-Blossom/Copyfail-sh",
     stars: 0,
   },
 ];
@@ -47,7 +95,7 @@ const langColor: Record<string, string> = {
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const [featured, setFeatured] = useState(initialFeatured);
+  const [featured, setFeatured] = useState<any[]>([]);
 
   useEffect(() => {
     const el = heroRef.current;
@@ -60,10 +108,15 @@ export default function Home() {
       el.style.transform = "translateY(0)";
     });
 
+    // Pick 4 random repos
+    const shuffled = [...allRepos].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 4);
+    setFeatured(selected);
+
     const fetchStars = async () => {
       try {
         const updated = await Promise.all(
-          initialFeatured.map(async (repo) => {
+          selected.map(async (repo) => {
             const res = await fetch("https://api.github.com/repos/Koshmare-Blossom/" + repo.name);
             if (res.ok) {
               const data = await res.json();
