@@ -23,7 +23,7 @@ const initialRepos = [
     name: "unveil",
     desc: "LLVM-based devirtualization.",
     cve: null,
-    lang: "Go",
+    lang: ["Go", "C"],
     url: "https://github.com/Koshmare-Blossom/unveil",
     stars: 0,
   },
@@ -97,6 +97,7 @@ const langColor: Record<string, string> = {
   Go: "#00acd7",
   ASM: "#a78bfa",
   Shell: "#e879f9",
+  C: "#94a3b8",
 };
 
 export default function Research() {
@@ -161,15 +162,22 @@ export default function Research() {
                   ★ {repo.stars}
                 </span>
               )}
-              <span
-                className="font-mono text-xs px-2 py-0.5 rounded"
-                style={{
-                  color: langColor[repo.lang] ?? "#94a3b8",
-                  background: (langColor[repo.lang] ?? "#94a3b8") + "15",
-                }}
-              >
-                {repo.lang}
-              </span>
+              <div className="flex items-center gap-1.5">
+                {(Array.isArray(repo.lang) ? repo.lang : [repo.lang]).map(
+                  (l: string) => (
+                    <span
+                      key={l}
+                      className="font-mono text-xs px-2 py-0.5 rounded"
+                      style={{
+                        color: langColor[l] ?? "#94a3b8",
+                        background: (langColor[l] ?? "#94a3b8") + "15",
+                      }}
+                    >
+                      {l}
+                    </span>
+                  )
+                )}
+              </div>
             </div>
           </a>
         ))}

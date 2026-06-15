@@ -6,6 +6,14 @@ import { useEffect, useRef, useState } from "react";
 
 const allRepos = [
   {
+    name: "unveil",
+    desc: "LLVM-based devirtualization.",
+    cve: null,
+    lang: ["Go", "C"],
+    url: "https://github.com/Koshmare-Blossom/unveil",
+    stars: 0,
+  },
+  {
     name: "whisper",
     desc: "Hell's Gate / Halo's Gate for Linux. Indirect syscalls via runtime libc ELF parsing.",
     cve: null,
@@ -91,6 +99,7 @@ const langColor: Record<string, string> = {
   Go: "#00acd7",
   ASM: "#a78bfa",
   Shell: "#e879f9",
+  C: "#94a3b8",
 };
 
 export default function Home() {
@@ -210,15 +219,22 @@ export default function Home() {
                     </span>
                   )}
                 </div>
-                <span
-                  className="font-mono text-xs px-1.5 py-0.5 rounded"
-                  style={{
-                    color: langColor[repo.lang] ?? "#94a3b8",
-                    background: (langColor[repo.lang] ?? "#94a3b8") + "15",
-                  }}
-                >
-                  {repo.lang}
-                </span>
+                <div className="flex items-center gap-1 shrink-0">
+                  {(Array.isArray(repo.lang) ? repo.lang : [repo.lang]).map(
+                    (l: string) => (
+                      <span
+                        key={l}
+                        className="font-mono text-xs px-1.5 py-0.5 rounded"
+                        style={{
+                          color: langColor[l] ?? "#94a3b8",
+                          background: (langColor[l] ?? "#94a3b8") + "15",
+                        }}
+                      >
+                        {l}
+                      </span>
+                    )
+                  )}
+                </div>
               </div>
               <p className="text-[#64748b] text-xs leading-relaxed mb-2">
                 {repo.desc}
