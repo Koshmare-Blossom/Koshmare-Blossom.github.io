@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 340" role="img" aria-label="Bar chart of LLVM IR line count after each optimization pass, dropping from 1587 to 121">
+  <style>
+    .val { fill: #e2e8f0; font-family: ui-monospace, monospace; font-size: 12px; font-weight: 600; text-anchor: middle; }
+    .lbl { fill: #64748b; font-family: ui-monospace, monospace; font-size: 11px; text-anchor: middle; }
+    .cap { fill: #94a3b8; font-family: ui-monospace, monospace; font-size: 12px; }
+  </style>
+
+  <rect x="0.5" y="0.5" width="919" height="339" rx="10" fill="#0f0f1a" stroke="#1e1e30"/>
+  <text x="24" y="34" class="cap">LLVM IR lines surviving each pass (hard mode)</text>
+
+  <defs>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e879f9"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+
+  <!-- baseline -->
+  <line x1="40" y1="280" x2="896" y2="280" stroke="#1e1e30" stroke-width="1"/>
+
+  <!-- bars -->
+  <rect x="56"  y="60"  width="92" height="220" rx="4" fill="url(#bar)"/>
+  <rect x="204" y="91"  width="92" height="189" rx="4" fill="url(#bar)"/>
+  <rect x="352" y="91"  width="92" height="189" rx="4" fill="url(#bar)"/>
+  <rect x="500" y="157" width="92" height="123" rx="4" fill="url(#bar)"/>
+  <rect x="648" y="240" width="92" height="40"  rx="4" fill="url(#bar)"/>
+  <rect x="796" y="263" width="92" height="17"  rx="4" fill="url(#bar)"/>
+
+  <!-- value labels -->
+  <text x="102" y="52"  class="val">1587</text>
+  <text x="250" y="83"  class="val">1365</text>
+  <text x="398" y="83"  class="val">1365</text>
+  <text x="546" y="149" class="val">887</text>
+  <text x="694" y="232" class="val">287</text>
+  <text x="842" y="255" class="val">121</text>
+
+  <!-- pass labels -->
+  <text x="102" y="300" class="lbl">raw lift</text>
+  <text x="250" y="300" class="lbl">mem2reg</text>
+  <text x="398" y="300" class="lbl">+sroa</text>
+  <text x="546" y="300" class="lbl">+sccp/ic</text>
+  <text x="694" y="300" class="lbl">+gvn/cfg</text>
+  <text x="842" y="300" class="lbl">-O1</text>
+</svg>

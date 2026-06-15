@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" role="img" aria-label="Devirtualization pipeline: VM bytecode is lifted to verbose LLVM IR, then opt folds it into clean IR">
+  <style>
+    .box   { fill: #0b0b16; stroke: #1e1e30; stroke-width: 1.5; }
+    .hot   { fill: #0b0b16; stroke: #e879f9; stroke-width: 1.5; }
+    .ttl   { fill: #e2e8f0; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 600; }
+    .sub   { fill: #64748b; font-family: ui-monospace, monospace; font-size: 10.5px; }
+    .cap   { fill: #64748b; font-family: ui-monospace, monospace; font-size: 11px; }
+    .arr   { stroke: #a78bfa; stroke-width: 1.75; fill: none; }
+  </style>
+
+  <rect x="0.5" y="0.5" width="959" height="219" rx="10" fill="#0f0f1a" stroke="#1e1e30"/>
+  <text x="20" y="30" class="cap">lift &#8594; optimize &#8594; devirtualize</text>
+
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <!-- stage 1 -->
+  <rect class="box" x="16" y="68" width="150" height="100" rx="8"/>
+  <text x="91" y="108" text-anchor="middle" class="ttl">VM bytecode</text>
+  <text x="91" y="130" text-anchor="middle" class="sub">bytecode.bin</text>
+  <text x="91" y="146" text-anchor="middle" class="sub">stack machine</text>
+
+  <!-- stage 2 -->
+  <rect class="box" x="210" y="68" width="150" height="100" rx="8"/>
+  <text x="285" y="108" text-anchor="middle" class="ttl">Go lifter</text>
+  <text x="285" y="130" text-anchor="middle" class="sub">1 block / instr</text>
+  <text x="285" y="146" text-anchor="middle" class="sub">stack in IR</text>
+
+  <!-- stage 3 -->
+  <rect class="box" x="405" y="68" width="150" height="100" rx="8"/>
+  <text x="480" y="108" text-anchor="middle" class="ttl">verbose IR</text>
+  <text x="480" y="130" text-anchor="middle" class="sub">~1587 lines</text>
+  <text x="480" y="146" text-anchor="middle" class="sub">all stack traffic</text>
+
+  <!-- stage 4 (the interesting one) -->
+  <rect class="hot" x="599" y="68" width="150" height="100" rx="8"/>
+  <text x="674" y="108" text-anchor="middle" class="ttl">opt -O1</text>
+  <text x="674" y="130" text-anchor="middle" class="sub">mem2reg · sroa</text>
+  <text x="674" y="146" text-anchor="middle" class="sub">instcombine · cfg</text>
+
+  <!-- stage 5 -->
+  <rect class="box" x="794" y="68" width="150" height="100" rx="8"/>
+  <text x="869" y="108" text-anchor="middle" class="ttl">clean IR</text>
+  <text x="869" y="130" text-anchor="middle" class="sub">~121 lines</text>
+  <text x="869" y="146" text-anchor="middle" class="sub">flag recovered</text>
+
+  <!-- arrows -->
+  <path class="arr" d="M168 118 L206 118" marker-end="url(#ah)"/>
+  <path class="arr" d="M362 118 L401 118" marker-end="url(#ah)"/>
+  <path class="arr" d="M557 118 L595 118" marker-end="url(#ah)"/>
+  <path class="arr" d="M751 118 L790 118" marker-end="url(#ah)"/>
+</svg>
