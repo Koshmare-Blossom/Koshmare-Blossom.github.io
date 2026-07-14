@@ -6,6 +6,14 @@ import { useEffect, useRef, useState } from "react";
 
 const allRepos = [
   {
+    name: "palimpsest",
+    desc: "Cross-cache UAF vs CONFIG_RANDOM_KMALLOC_CACHES. UAF to controlled RIP.",
+    cve: null,
+    lang: ["Go", "C"],
+    url: "https://github.com/Koshmare-Blossom/palimpsest",
+    stars: 0,
+  },
+  {
     name: "unveil",
     desc: "LLVM-based devirtualization.",
     cve: null,

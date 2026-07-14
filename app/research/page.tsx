@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from "react";
 
-const initialRepos = [ 
+const initialRepos = [
+  {
+    name: "palimpsest",
+    desc: "Cross-cache UAF vs CONFIG_RANDOM_KMALLOC_CACHES. UAF to controlled RIP.",
+    cve: null,
+    lang: ["Go", "C"],
+    url: "https://github.com/Koshmare-Blossom/palimpsest",
+    stars: 0,
+  },
   {
     name: "whisper",
     desc: "Hell's Gate / Halo's Gate for Linux. Indirect syscalls via runtime libc ELF parsing.",
@@ -129,11 +137,12 @@ export default function Research() {
       <div className="mb-16">
         <p className="font-mono text-sm text-[#64748b] mb-3">research</p>
         <h1 className="text-3xl font-semibold text-[#e2e8f0] mb-4">
-          PoC reimplementations
+          Research & PoC reimplementations
         </h1>
         <p className="text-[#64748b] max-w-xl leading-relaxed">
-          Reimplementing existing PoCs in different languages.
-          For researchers who need to see it, not just read about it.
+          Original exploit research alongside reimplementations of existing
+          PoCs in different languages. For researchers who need to see it,
+          not just read about it.
         </p>
       </div>
 
