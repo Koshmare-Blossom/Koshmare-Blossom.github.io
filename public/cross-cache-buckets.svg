@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" role="img" aria-label="Diagram showing the note object's kmalloc-512 bucket 0 and the key object's kmalloc-rnd-03-512 bucket 3 as separate SLUB caches that only meet at the shared buddy allocator">
+  <style>
+    .box    { fill: #0b0b16; stroke: #1e1e30; stroke-width: 1.5; }
+    .hot    { fill: #0b0b16; stroke: #e879f9; stroke-width: 1.5; }
+    .buddy  { fill: #0b0b16; stroke: #a78bfa; stroke-width: 1.75; }
+    .ttl    { fill: #e2e8f0; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 600; }
+    .sub    { fill: #64748b; font-family: ui-monospace, monospace; font-size: 11px; }
+    .cap    { fill: #94a3b8; font-family: ui-monospace, monospace; font-size: 12px; }
+    .lbl    { fill: #c4b5fd; font-family: ui-monospace, monospace; font-size: 10.5px; }
+    .arr    { stroke: #a78bfa; stroke-width: 1.75; fill: none; }
+    .arrp   { stroke: #e879f9; stroke-width: 1.75; fill: none; }
+    .cell   { fill: #171726; stroke: #2a2a40; stroke-width: 1; }
+    .cellf  { fill: #171726; stroke: #e879f9; stroke-width: 1.5; }
+  </style>
+
+  <rect x="0.5" y="0.5" width="899" height="399" rx="10" fill="#0f0f1a" stroke="#1e1e30"/>
+  <text x="24" y="34" class="cap">two different randomized caches, one shared page allocator</text>
+
+  <defs>
+    <marker id="ah3" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#a78bfa"/>
+    </marker>
+    <marker id="ah3p" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#e879f9"/>
+    </marker>
+  </defs>
+
+  <!-- left cache: notes -->
+  <rect class="box" x="40" y="64" width="330" height="140" rx="8"/>
+  <text x="205" y="90" text-anchor="middle" class="ttl">kmalloc-512</text>
+  <text x="205" y="108" text-anchor="middle" class="sub">bucket 0 &#8226; struct note &#8226; 8 obj/page</text>
+  <g transform="translate(64,124)">
+    <rect class="cellf" x="0"   y="0" width="34" height="34" rx="4"/>
+    <rect class="cell"  x="40"  y="0" width="34" height="34" rx="4"/>
+    <rect class="cell"  x="80"  y="0" width="34" height="34" rx="4"/>
+    <rect class="cell"  x="120" y="0" width="34" height="34" rx="4"/>
+    <rect class="cell"  x="160" y="0" width="34" height="34" rx="4"/>
+    <rect class="cell"  x="200" y="0" width="34" height="34" rx="4"/>
+    <rect class="cell"  x="240" y="0" width="34" height="34" rx="4"/>
+    <rect class="cell"  x="0"   y="40" width="34" height="34" rx="4"/>
+    <text x="17" y="24" text-anchor="middle" class="lbl" fill="#e879f9">idx</text>
+  </g>
+  <text x="205" y="188" text-anchor="middle" class="sub">2000 allocated &#8594; freed &#8594; page emptied</text>
+
+  <!-- right cache: keys -->
+  <rect class="box" x="530" y="64" width="330" height="140" rx="8"/>
+  <text x="695" y="90" text-anchor="middle" class="ttl">kmalloc-rnd-03-512</text>
+  <text x="695" y="108" text-anchor="middle" class="sub">bucket 3 &#8226; user_key_payload</text>
+  <g transform="translate(554,124)">
+    <rect class="cell" x="0"   y="0" width="34" height="34" rx="4"/>
+    <rect class="cell" x="40"  y="0" width="34" height="34" rx="4"/>
+    <rect class="cellf" x="80" y="0" width="34" height="34" rx="4"/>
+    <rect class="cell" x="120" y="0" width="34" height="34" rx="4"/>
+    <rect class="cell" x="160" y="0" width="34" height="34" rx="4"/>
+    <rect class="cell" x="200" y="0" width="34" height="34" rx="4"/>
+    <rect class="cell" x="240" y="0" width="34" height="34" rx="4"/>
+    <rect class="cell" x="0"   y="40" width="34" height="34" rx="4"/>
+  </g>
+  <text x="695" y="188" text-anchor="middle" class="sub">20000 sprayed &#8226; requests fresh pages</text>
+
+  <!-- buddy allocator -->
+  <rect class="buddy" x="235" y="280" width="430" height="80" rx="8"/>
+  <text x="450" y="314" text-anchor="middle" class="ttl">buddy allocator</text>
+  <text x="450" y="334" text-anchor="middle" class="sub">tracks physical pages only &#8212; no cache identity</text>
+
+  <!-- arrows -->
+  <path class="arrp" d="M180 214 C 180 250, 300 250, 340 276" marker-end="url(#ah3p)"/>
+  <text x="185" y="248" class="lbl" fill="#e879f9">freed page</text>
+
+  <path class="arr" d="M600 276 C 640 250, 640 250, 640 214" marker-end="url(#ah3)"/>
+  <text x="648" y="248" class="lbl">same page, new owner</text>
+</svg>

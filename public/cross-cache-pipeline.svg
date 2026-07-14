@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1380 220" role="img" aria-label="Exploit pipeline: UAF trigger, drain notes to the buddy allocator, spray keys, confirm type confusion, corrupt datalen for a KASLR leak, then hijack the pending RCU callback for controlled RIP">
+  <style>
+    .box   { fill: #0b0b16; stroke: #1e1e30; stroke-width: 1.5; }
+    .hot   { fill: #0b0b16; stroke: #e879f9; stroke-width: 1.5; }
+    .ttl   { fill: #e2e8f0; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; font-weight: 600; }
+    .sub   { fill: #64748b; font-family: ui-monospace, monospace; font-size: 10px; }
+    .cap   { fill: #64748b; font-family: ui-monospace, monospace; font-size: 11px; }
+    .arr   { stroke: #a78bfa; stroke-width: 1.75; fill: none; }
+  </style>
+
+  <rect x="0.5" y="0.5" width="1379" height="219" rx="10" fill="#0f0f1a" stroke="#1e1e30"/>
+  <text x="20" y="30" class="cap">UAF &#8594; cross-cache &#8594; type confusion &#8594; KASLR leak &#8594; controlled RIP</text>
+
+  <defs>
+    <marker id="ah2" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <!-- stage 1 -->
+  <rect class="box" x="16" y="68" width="200" height="108" rx="8"/>
+  <text x="116" y="104" text-anchor="middle" class="ttl">UAF trigger</text>
+  <text x="116" y="126" text-anchor="middle" class="sub">FREE then EDIT</text>
+  <text x="116" y="142" text-anchor="middle" class="sub">notes[idx] never cleared</text>
+
+  <!-- stage 2 -->
+  <rect class="box" x="232" y="68" width="200" height="108" rx="8"/>
+  <text x="332" y="104" text-anchor="middle" class="ttl">drain to buddy</text>
+  <text x="332" y="126" text-anchor="middle" class="sub">2000 notes, kmalloc-512</text>
+  <text x="332" y="142" text-anchor="middle" class="sub">~240 slabs released</text>
+
+  <!-- stage 3 -->
+  <rect class="box" x="448" y="68" width="200" height="108" rx="8"/>
+  <text x="548" y="104" text-anchor="middle" class="ttl">spray reclaim</text>
+  <text x="548" y="126" text-anchor="middle" class="sub">20000 &#215; user_key_payload</text>
+  <text x="548" y="142" text-anchor="middle" class="sub">different random bucket</text>
+
+  <!-- stage 4 -->
+  <rect class="box" x="664" y="68" width="200" height="108" rx="8"/>
+  <text x="764" y="104" text-anchor="middle" class="ttl">type confusion</text>
+  <text x="764" y="126" text-anchor="middle" class="sub">fingerprint read back</text>
+  <text x="764" y="142" text-anchor="middle" class="sub">note idx now = live key</text>
+
+  <!-- stage 5 -->
+  <rect class="box" x="880" y="68" width="200" height="108" rx="8"/>
+  <text x="980" y="104" text-anchor="middle" class="ttl">KASLR leak</text>
+  <text x="980" y="126" text-anchor="middle" class="sub">datalen corrupted</text>
+  <text x="980" y="142" text-anchor="middle" class="sub">root_key_user resolved</text>
+
+  <!-- stage 6 (the payoff) -->
+  <rect class="hot" x="1096" y="68" width="200" height="108" rx="8"/>
+  <text x="1196" y="104" text-anchor="middle" class="ttl">controlled RIP</text>
+  <text x="1196" y="126" text-anchor="middle" class="sub">rcu.func overwritten</text>
+  <text x="1196" y="142" text-anchor="middle" class="sub">RIP == badTarget exactly</text>
+
+  <!-- arrows -->
+  <path class="arr" d="M216 122 L228 122" marker-end="url(#ah2)"/>
+  <path class="arr" d="M432 122 L444 122" marker-end="url(#ah2)"/>
+  <path class="arr" d="M648 122 L660 122" marker-end="url(#ah2)"/>
+  <path class="arr" d="M864 122 L876 122" marker-end="url(#ah2)"/>
+  <path class="arr" d="M1080 122 L1092 122" marker-end="url(#ah2)"/>
+</svg>
